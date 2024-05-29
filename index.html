@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Titulo -->
+    <title>Control de Lampada</title>
+    <!-- Estilizacao -->
+    <style>
+        /* Bacia */
+        section{
+        /* Todo texto centralizado */
+            text-align: center;
+        }
+        /* Butoes */
+        input{
+            /* Aredondar os cantos */
+            border-radius: 20px;
+            /* Comprimento */
+            width: 200px;
+            /* Largura */
+            height: 50px;
+            /* Tudo em maiuscula */
+            text-transform: uppercase;
+            /* Tamanho da fonte */
+            font-size: 32px;
+        }
+        /* Ao colocar o mouse por cima */
+        input:hover{
+            /* Mudar de cor do texto de todos os butoes */
+            color: rgb(122, 187, 166);
+        }
+        /* Controlar butao on */
+        .on{
+            /* Mudar a cor de fundo para verde */
+            background-color: #6bf051;
+        }
+        .off{
+            /* Mudar a cor de fundo para vermelho */
+            background-color: #ff0606;
+            /* mudar cor do texto do butao desligar */
+            color: white;
+        }
+        /* Controlar Estado */
+        #status{
+            width: 100px;
+            height: 100px;
+            border-radius: 100%;
+            border-color: rgb(56, 54, 54);
+            /* Centralizar tudo */
+            margin: 0 auto;
+        }
+        /* Paragrafo */
+        p{
+            text-transform: uppercase;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCS_E2_m8r9WMhSE1smK3_YKjpWKEFw-yw",
+
+authDomain: "macucule-5cf63.firebaseapp.com",
+
+projectId: "macucule-5cf63",
+
+storageBucket: "macucule-5cf63.appspot.com",
+
+messagingSenderId: "85374840540",
+
+appId: "1:85374840540:web:9bc77933ff01d0a72b4e19",
+
+measurementId: "G-VWR1DVSCYT"
+};
+  firebase.initializeApp(firebaseConfig);
+
+firebase.database().ref("SALA/estado").on("value", snapshot => {
+document.querySelector("#estado-led").textContent = snapshot.val();
+});
+
+
+  function ledOn() {
+    firebase.database().ref("SALA").set({
+      estado: "LIGADA"
+    });
+  }
+
+  function ledOff() {
+    firebase.database().ref("SALA").set({
+      estado: "DESLIGADA"
+    });
+  }
+</script>
+<script src="app.js" defer></script>
+
+<body>
+    <!-- Bacia -->
+    <section>
+        <!-- Imagem / height 100px - Passa a altura para 100 pixels -->
+        <img src="logotipo.png" height="100px">
+        <!-- Formulario -->
+        <form action="#">
+            <!-- Titulo 1 -->
+            <h1>TME Education Mozambique</h1>
+            <!-- Butao On -->
+                <input type="button" onclick="ledOn()" class="on" value="ligar">
+            <!-- Butao OFF -->
+                <input type="button" onclick="ledOff()" class="off" value="Desligar">
+        </form>
+        <!-- Paragrafo -->
+        <p id="p">Estado</p>
+        <!-- Bacia Vazia -->
+        <div id="status"></div>
+    </section>
+    <!-- Cabeca -JS -->
+    <script>
+        // Selecionar a bacia status
+        const status = document.getElementById("status").style;
+        // Funcao desligar
+        function off() {
+            // Colorir o fundo de vermelho
+            status.backgroundColor="red";
+        }
+        // Funcao Ligar
+        function on() {
+            // Colorir o fundo de verde
+            status.backgroundColor="green"
+        }
+    </script>
+</body>
+</html>
